@@ -11,13 +11,9 @@ public class Server {
         try {
             while (!serverSocket.isClosed()) {
                 // do work
-                try {
                     Socket incomingSocket = serverSocket.accept();
                     System.out.println("New client connected");
-                } catch (Exception e) {
-                    // TODO log exception
-                    System.out.println(e.toString());
-                }
+                    // TODO add client handler
             }
         } catch (Exception e) {
             // TODO log exception
