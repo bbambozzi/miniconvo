@@ -1,7 +1,9 @@
 package org.miniconvo.server;
 
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Arrays;
 
 public class Server {
 
@@ -11,13 +13,13 @@ public class Server {
         try {
             while (!serverSocket.isClosed()) {
                 // do work
-                    Socket incomingSocket = serverSocket.accept();
-                    System.out.println("New client connected");
-                    // TODO add client handler
+                Socket incomingSocket = serverSocket.accept();
+                System.out.println("New client connected");
+                // TODO add client handler
             }
-        } catch (Exception e) {
-            // TODO log exception
-            System.out.println(e.toString());
+        } catch (IOException e) {
+            // TODO Remove printing the entire stack trace
+            e.printStackTrace();
         }
     }
 }
