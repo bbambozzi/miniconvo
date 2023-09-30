@@ -2,12 +2,10 @@ package org.miniconvo.server;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class ClientHandler implements Runnable {
-    private static final List<ClientHandler> clientHandlerList = new ArrayList<>();
+    private static final Set<ClientHandler> clientHandlerList = new HashSet<>();
     private final Socket socket;
     private BufferedReader reader;
     private BufferedWriter writer;
@@ -41,7 +39,6 @@ public class ClientHandler implements Runnable {
 
     }
 
-
     public void sendMessage(String messageToSend) {
         for (ClientHandler clientHandler : clientHandlerList) {
             if (!clientHandler.username.equals(this.username)) {
@@ -72,4 +69,8 @@ public class ClientHandler implements Runnable {
         }
     }
 
+    public void removeClient() {
+        clientHandlerList.remove(this);
+        sendMessage("SERVER MESSAGE: " + this.username + " has left the chat.");
+    }
 }
