@@ -56,15 +56,16 @@ public class ClientHandler implements Runnable {
 
     void closeAll() {
         try {
-            if (!Objects.isNull(socket)) {
+            if (Objects.nonNull(socket)) {
                 socket.close();
             }
-            if (!Objects.isNull(reader)) {
+            if (Objects.nonNull(reader)) {
                 reader.close();
             }
-            if (!Objects.isNull(writer)) {
+            if (Objects.nonNull(writer)) {
                 writer.close();
             }
+            removeClient();
         } catch (Exception ignored) {
         }
     }
