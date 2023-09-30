@@ -29,7 +29,7 @@ public record Server(ServerSocket serverSocket) {
             try {
                 Socket connectedClient = serverSocket.accept();
                 ClientHandler clientHandler = new ClientHandler(connectedClient); // blocking?
-                System.out.println("SERVER: user " + clientHandler.getUsername() + " has joined the server.");
+                System.out.println("SERVER LOG: user " + clientHandler.getUsername() + " has joined the server.");
             } catch (Exception e) {
                 e.printStackTrace();
             }
