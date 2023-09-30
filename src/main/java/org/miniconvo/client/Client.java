@@ -25,7 +25,6 @@ public class Client {
 
     private void closeAll() {
         try {
-
             if (Objects.nonNull(socket)) {
                 socket.close();
             }
@@ -50,7 +49,16 @@ public class Client {
                 writer.write(username + ": " + userMessage);
                 writer.newLine();
                 writer.flush();
+            }
+        } catch (IOException e) {
+            closeAll();
+        }
+    }
 
+
+    public void listenToMessages() {
+        try {
+            while (socket.isConnected()) {
             }
         } catch (IOException e) {
             closeAll();
