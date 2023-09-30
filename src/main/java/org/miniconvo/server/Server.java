@@ -3,6 +3,7 @@ package org.miniconvo.server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Objects;
 
 public class Server {
 
@@ -12,8 +13,13 @@ public class Server {
         this.serverSocket = serverSocket;
     }
 
-    private void closeSocket() {
-
+    private void closeSocket(Socket socket) {
+        if (!Objects.isNull(socket)) {
+            try {
+                socket.close();
+            } catch (IOException ignored) {
+            }
+        }
     }
 
     public void start() {

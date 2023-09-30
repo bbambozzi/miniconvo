@@ -1,9 +1,58 @@
 package org.miniconvo.server;
 
+import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
-public class ClientHandler {
-    public ClientHandler(Socket acceptedSocket) {
-        // todo
+public class ClientHandler implements Runnable {
+    private static final List<ClientHandler> clientHandlerList = new ArrayList<>();
+    private final Socket socket;
+    private BufferedReader reader;
+    private BufferedWriter writer;
+    private String username;
+
+    public ClientHandler(Socket socket) {
+        try {
+            this.socket = socket;
+            this.reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            this.writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+            this.username = reader.readLine();
+            clientHandlerList.add(this);
+        } catch (Exception ignored) {
+            closeAll();
+        }
     }
+
+
+    @Override
+    public void run() {
+        String messageReceivedFromClient;
+        while (socket.isConnected()) {
+            try {
+                messageReceivedFromClient = reader.readLine();
+            } catch (IOException ignored) {
+
+            }
+        }
+
+    }
+
+
+    void closeAll() {
+        try {
+            if (!Objects.isNull(socket)) {
+                socket.close();
+            }
+            if (!Objects.isNull(reader)) {
+                reader.close();
+            }
+            if (!Objects.isNull(writer)) {
+                writer.close();
+            }
+        } catch (Exception ignored) {
+        }
+    }
+
 }
