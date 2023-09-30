@@ -12,6 +12,10 @@ public class Server {
         this.serverSocket = serverSocket;
     }
 
+    private void closeSocket() {
+
+    }
+
     public void start() {
         try {
             while (!serverSocket.isClosed()) {
