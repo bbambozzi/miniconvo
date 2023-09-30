@@ -5,7 +5,6 @@ import java.net.ServerSocket;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        System.out.println("Hello world!");
-        ServerSocket serverSocket = new ServerSocket(1337);
+        System.out.println("Commencing program..");
     }
 }

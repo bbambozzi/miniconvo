@@ -62,4 +62,16 @@ public class Client {
             messageListener.run();
         }
     }
+
+
+    public static void main(String[] args) throws IOException {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Initialized Client Program");
+        System.out.print("Please enter your username: ");
+        String username = scanner.nextLine();
+        Socket clientSocket = new Socket("localhost", 1337);
+        Client client = new Client(clientSocket, username);
+        client.listenToMessages();
+        client.sendMessage();
+    }
 }

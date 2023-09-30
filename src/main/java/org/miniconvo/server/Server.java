@@ -37,5 +37,13 @@ public class Server {
             e.printStackTrace();
         }
     }
+
+    public static void main(String[] args) throws IOException {
+        ServerSocket serverSocket = new ServerSocket(1337);
+        Server server = new Server(serverSocket);
+        System.out.println("Starting server..");
+        server.start();
+        System.out.println("Started server!");
+    }
 }
 
