@@ -6,7 +6,7 @@ import java.util.*;
 
 public class ClientHandler implements Runnable {
     private static final Set<ClientHandler> clientHandlerList = new HashSet<>();
-    private final Socket socket;
+    private Socket socket;
     private BufferedReader reader;
     private BufferedWriter writer;
     private String username;
