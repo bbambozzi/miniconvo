@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.Objects;
+import java.util.Scanner;
 
 public class Client {
     private Socket socket;
@@ -39,6 +40,23 @@ public class Client {
             }
         } catch (Exception ignored) {
         }
+    }
 
+    private void sendMessage() {
+        try {
+            writer.write(username);
+            writer.newLine();
+            writer.flush();
+            Scanner scanner = new Scanner(System.in);
+            while (socket.isConnected()) {
+                String userMessage = scanner.nextLine();
+                writer.write(username + ": " + userMessage);
+                writer.newLine();
+                writer.flush();
+
+            }
+        } catch (Exception ignored) {
+            // todo change this to non-cli web logic
+        }
     }
 }
