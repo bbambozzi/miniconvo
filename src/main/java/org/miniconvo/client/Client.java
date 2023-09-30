@@ -23,7 +23,7 @@ public class Client {
         }
     }
 
-    private void closeAll() {
+    public void closeAll() {
         try {
             if (Objects.nonNull(socket)) {
                 socket.close();
@@ -57,11 +57,9 @@ public class Client {
 
 
     public void listenToMessages() {
-        try {
-            while (socket.isConnected()) {
-            }
-        } catch (IOException e) {
-            closeAll();
+        while (socket.isConnected()) {
+            MessageListener messageListener = new MessageListener(this);
+            messageListener.run();
         }
     }
 }
