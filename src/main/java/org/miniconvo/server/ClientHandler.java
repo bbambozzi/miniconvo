@@ -20,7 +20,7 @@ public class ClientHandler implements Runnable {
             this.writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             this.username = reader.readLine();
             clientHandlerList.add(this);
-        } catch (Exception ignored) {
+        } catch (Exception e) {
             closeAll();
         }
     }
@@ -32,11 +32,28 @@ public class ClientHandler implements Runnable {
         while (socket.isConnected()) {
             try {
                 messageReceivedFromClient = reader.readLine();
-            } catch (IOException ignored) {
-
+                sendMessage(messageReceivedFromClient);
+            } catch (IOException e) {
+                closeAll();
+                break;
             }
         }
 
+    }
+
+
+    public void sendMessage(String messageToSend) {
+        for (ClientHandler clientHandler : clientHandlerList) {
+            if (!clientHandler.username.equals(this.username)) {
+                try {
+                    clientHandler.writer.write(messageToSend);
+                    writer.newLine();
+                    writer.flush();
+                } catch (IOException e) {
+                    closeAll();
+                }
+            }
+        }
     }
 
 
