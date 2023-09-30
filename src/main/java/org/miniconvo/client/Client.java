@@ -1,9 +1,6 @@
 package org.miniconvo.client;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.net.Socket;
 import java.util.Objects;
 import java.util.Scanner;
@@ -21,7 +18,7 @@ public class Client {
             this.username = username;
             this.reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             this.writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-        } catch (Exception e) {
+        } catch (IOException e) {
             closeAll();
         }
     }
@@ -55,8 +52,8 @@ public class Client {
                 writer.flush();
 
             }
-        } catch (Exception ignored) {
-            // todo change this to non-cli web logic
+        } catch (IOException e) {
+            closeAll();
         }
     }
 }
