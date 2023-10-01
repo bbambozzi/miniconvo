@@ -41,7 +41,7 @@ public class ClientHandler {
     }
 
     private void broadcastMessage(String messageToBroadcast) {
-        System.out.println("SEVER LOG: " + messageToBroadcast);
+        System.out.println("SERVER LOG: " + messageToBroadcast);
         allClients.stream().parallel().forEach(elem -> {
             try {
                 writeToClientHandlerWriter(elem, messageToBroadcast);
