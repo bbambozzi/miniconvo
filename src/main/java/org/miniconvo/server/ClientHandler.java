@@ -36,12 +36,12 @@ public class ClientHandler {
     }
 
     private void broadcastMessage(String messageToBroadcast) {
+        System.out.println("SEVER LOG: " + messageToBroadcast);
         try {
-
             for (ClientHandler clientHandler : allClients) {
                 clientHandler.writer.write(messageToBroadcast);
-                writer.newLine();
-                writer.flush();
+                clientHandler.writer.newLine();
+                clientHandler.writer.flush();
             }
         } catch (IOException e) {
             e.printStackTrace();
