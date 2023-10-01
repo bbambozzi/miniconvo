@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 
-public class ClientHandler {
+public class ClientHandler implements Runnable {
 
     private static final Set<ClientHandler> allClients = new HashSet<>();
     private String username;
@@ -16,9 +16,9 @@ public class ClientHandler {
 
     ClientHandler(Socket socket) {
         try {
-            this.username = askForUsernameFromConsole(); // TODO get this from client perhaps?
             this.writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             this.reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            this.username = reader.readLine(); // Extract the username from the first line.
             allClients.add(this);
             broadcastMessage(this.username + " has joined the chat.");
         } catch (IOException e) {
@@ -53,5 +53,13 @@ public class ClientHandler {
 
     public String getUsername() {
         return username;
+    }
+
+    /**
+     * Runs this operation.
+     */
+    @Override
+    public void run() {
+
     }
 }

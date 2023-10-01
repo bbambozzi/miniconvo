@@ -12,12 +12,13 @@ public class Client {
     private String username;
     private Socket socket;
 
-    Client(Socket socket) {
+    Client(Socket socket, String username) {
         try {
             this.reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             this.writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             this.socket = socket;
-            // this.username = askForUsernameViaCli(); TODO? Ask server?
+            this.username = username;
+            sendMessageToServer(username);
         } catch (IOException e) {
             closeAll();
             e.printStackTrace();
@@ -49,9 +50,19 @@ public class Client {
         }
     }
 
+    public void sendMessageToServer(String message) {
+        try {
+            writer.write(message);
+            writer.newLine();
+            writer.flush();
+        } catch (IOException e) {
+            closeAll();
+        }
+    }
+
     public void listen() {
         System.out.println("Started listening..");
-        while (this.socket.isConnected()) {
+        while (this.socket.isConnected() && this.socket != null) {
             try {
             System.out.println(reader.readLine());
             } catch (IOException e) {
@@ -62,8 +73,11 @@ public class Client {
     }
 
     public static void main(String[] args) throws IOException {
+        System.out.println("Please enter your username: ");
+        Scanner scanner = new Scanner(System.in);
+        String usernameViaCli = scanner.nextLine();
         Socket clientSocketConnection = new Socket("localhost", 1337);
-        Client client = new Client(clientSocketConnection);
+        Client client = new Client(clientSocketConnection, usernameViaCli);
         System.out.println("Connected.");
         client.listen();
     }

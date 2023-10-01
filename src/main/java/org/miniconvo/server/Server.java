@@ -28,8 +28,8 @@ public record Server(ServerSocket serverSocket) {
         while (!serverSocket.isClosed()) {
             try {
                 Socket connectedClient = serverSocket.accept();
-                ClientHandler clientHandler = new ClientHandler(connectedClient); // blocking?
-                System.out.println("SERVER LOG: user " + clientHandler.getUsername() + " has joined the server.");
+                ClientHandler clientHandler = new ClientHandler(connectedClient);
+                System.out.println("SERVER LOG: user " + clientHandler.getUsername() + " has joined the server."); // blocking
             } catch (IOException e) {
                 closeAllResources();
                 e.printStackTrace();
