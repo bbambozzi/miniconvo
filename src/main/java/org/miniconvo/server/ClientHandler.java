@@ -55,18 +55,17 @@ public class ClientHandler implements Runnable {
         });
     }
 
-    private void closeAll() {
+    private void removeClientFromHandlers() {
         broadcastMessage(this.username + " has left the chat.");
+        allClients.remove(this);
+    }
+
+    private void closeAll() {
+        removeClientFromHandlers();
         try {
-            if (Objects.nonNull(socket)) {
-                this.socket.close();
-            }
-            if (Objects.nonNull(writer)) {
-                this.writer.close();
-            }
-            if (Objects.nonNull(reader)) {
-                this.reader.close();
-            }
+            this.socket.close();
+            this.writer.close();
+            this.reader.close();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -82,18 +81,20 @@ public class ClientHandler implements Runnable {
      */
     @Override
     public void run() {
-        while (!this.socket.isClosed() && this.socket.isConnected()) {
-            // blocking, therefore we want this on a separate thread
+        while (this.socket != null && !this.socket.isClosed() && this.socket.isConnected()) {
             try {
                 String userInput = reader.readLine();
                 if (userInput != null && !userInput.isEmpty()) {
                     broadcastMessage(this.username + ": " + userInput);
                 }
             } catch (IOException e) {
+                System.out.println("Exception and stuff");
                 closeAll();
                 break;
             }
         }
+        System.out.println("SERVER LOG: Thread connection finished");
+        closeAll();
     }
 
 }

@@ -32,7 +32,6 @@ public record Server(ServerSocket serverSocket) {
                 Thread.ofVirtual().name(clientHandler.getUsername()).start(clientHandler);
             } catch (IOException e) {
                 closeAllResources();
-                e.printStackTrace();
             }
         }
     }
