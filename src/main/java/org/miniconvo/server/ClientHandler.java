@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.Socket;
 import java.sql.Date;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -25,7 +26,7 @@ public class ClientHandler implements Runnable {
             allClients.add(this);
             broadcastMessage(this.username + " has joined the chat.");
         } catch (IOException e) {
-            e.printStackTrace();
+            closeAll();
         }
     }
 
@@ -49,9 +50,26 @@ public class ClientHandler implements Runnable {
             try {
                 writeToClientHandlerWriter(elem, messageToBroadcast);
             } catch (IOException e) {
-                e.printStackTrace();
+                closeAll();
             }
         });
+    }
+
+    private void closeAll() {
+        try {
+            if (Objects.nonNull(socket)) {
+                this.socket.close();
+            }
+            if (Objects.nonNull(writer)) {
+                this.writer.close();
+            }
+            if (Objects.nonNull(reader)) {
+                this.reader.close();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public String getUsername() {
@@ -63,13 +81,13 @@ public class ClientHandler implements Runnable {
      */
     @Override
     public void run() {
-        while (this.socket.isConnected()) {
+        while (!this.socket.isClosed() && this.socket.isConnected()) {
             // blocking, therefore we want this on a separate thread
             try {
                 String userInput = reader.readLine();
                 broadcastMessage(this.username + ": " + userInput);
             } catch (IOException e) {
-                e.printStackTrace();
+                closeAll();
             }
         }
     }

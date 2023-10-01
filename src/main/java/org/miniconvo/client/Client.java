@@ -32,6 +32,7 @@ public class Client {
         Socket clientSocketConnection = new Socket("localhost", 1337);
         Client client = new Client(clientSocketConnection, usernameViaCli);
         System.out.println("Welcome, " + client.username + "!");
+        client.listenForServerMessages();
         client.listenForUserInputToSendToServer();
     }
 
@@ -72,22 +73,23 @@ public class Client {
         }
     }
 
-    public void listen() {
+    public void listenForServerMessages() {
         System.out.println("Started listening..");
-        while (this.socket.isConnected() && this.socket != null) {
-            try {
-                System.out.println(reader.readLine());
-            } catch (IOException e) {
-                closeAll();
+        Thread.ofVirtual().name(this.username + " listener").start(() -> {
+            while (this.socket.isConnected() && this.socket != null) {
+                try {
+                    System.out.println(reader.readLine());
+                } catch (IOException e) {
+                    closeAll();
+                    System.out.println("Exception at listener thread.");
+                }
             }
-        }
-        System.out.println("Finished listening..");
+        });
     }
 
     public void listenForUserInputToSendToServer() {
-        while (socket.isConnected()) {
-            System.out.println("> ");
-            Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
+        while (socket != null && socket.isConnected()) {
             String userMessage = scanner.nextLine();
             sendMessageToServer(userMessage);
         }
