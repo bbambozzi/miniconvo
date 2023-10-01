@@ -12,12 +12,14 @@ public class ClientHandler implements Runnable {
     private String username;
     private BufferedWriter writer;
     private BufferedReader reader;
+    private Socket socket;
 
 
     ClientHandler(Socket socket) {
         try {
             this.writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             this.reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            this.socket = socket;
             this.username = reader.readLine(); // Extract the username from the first line.
             allClients.add(this);
             broadcastMessage(this.username + " has joined the chat.");
@@ -60,6 +62,15 @@ public class ClientHandler implements Runnable {
      */
     @Override
     public void run() {
-
+        while (this.socket.isConnected()) {
+            // blocking, therefore we want this on a separate thread
+            try {
+                String userInput = reader.readLine();
+                broadcastMessage(userInput);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
+
 }

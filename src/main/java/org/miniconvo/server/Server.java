@@ -29,7 +29,7 @@ public record Server(ServerSocket serverSocket) {
             try {
                 Socket connectedClient = serverSocket.accept();
                 ClientHandler clientHandler = new ClientHandler(connectedClient);
-                System.out.println("SERVER LOG: user " + clientHandler.getUsername() + " has joined the server."); // blocking
+                Thread.ofVirtual().name(clientHandler.getUsername()).start(clientHandler);
             } catch (IOException e) {
                 closeAllResources();
                 e.printStackTrace();

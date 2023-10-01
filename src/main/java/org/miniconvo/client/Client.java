@@ -25,11 +25,19 @@ public class Client {
         }
     }
 
+    public static void main(String[] args) throws IOException {
+        System.out.println("Please enter your username: ");
+        Scanner scanner = new Scanner(System.in);
+        String usernameViaCli = scanner.nextLine();
+        Socket clientSocketConnection = new Socket("localhost", 1337);
+        Client client = new Client(clientSocketConnection, usernameViaCli);
+        System.out.println("Welcome, " + client.username + "!");
+        client.listenForUserInputToSendToServer();
+    }
 
     private void sendInitialUsernameToServer() {
         sendMessageToServer(this.username);
     }
-
 
     private String askForUsernameViaCli() {
         System.out.println("Please enter your username ");
@@ -37,7 +45,6 @@ public class Client {
         String userInput = scanner.nextLine();
         return userInput;
     }
-
 
     private void closeAll() {
         try {
@@ -69,7 +76,7 @@ public class Client {
         System.out.println("Started listening..");
         while (this.socket.isConnected() && this.socket != null) {
             try {
-            System.out.println(reader.readLine());
+                System.out.println(reader.readLine());
             } catch (IOException e) {
                 closeAll();
             }
@@ -77,13 +84,12 @@ public class Client {
         System.out.println("Finished listening..");
     }
 
-    public static void main(String[] args) throws IOException {
-        System.out.println("Please enter your username: ");
-        Scanner scanner = new Scanner(System.in);
-        String usernameViaCli = scanner.nextLine();
-        Socket clientSocketConnection = new Socket("localhost", 1337);
-        Client client = new Client(clientSocketConnection, usernameViaCli);
-        System.out.println("Connected.");
-        client.listen();
+    public void listenForUserInputToSendToServer() {
+        while (socket.isConnected()) {
+            System.out.println("> ");
+            Scanner scanner = new Scanner(System.in);
+            String userMessage = scanner.nextLine();
+            sendMessageToServer(userMessage);
+        }
     }
 }
