@@ -2,6 +2,7 @@ package org.miniconvo.server;
 
 import java.io.*;
 import java.net.Socket;
+import java.sql.Date;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
@@ -43,7 +44,7 @@ public class ClientHandler implements Runnable {
     }
 
     private void broadcastMessage(String messageToBroadcast) {
-        System.out.println("SERVER LOG: " + messageToBroadcast);
+        System.out.println("SERVER BROADCAST: " + messageToBroadcast);
         allClients.stream().parallel().forEach(elem -> {
             try {
                 writeToClientHandlerWriter(elem, messageToBroadcast);
@@ -66,7 +67,7 @@ public class ClientHandler implements Runnable {
             // blocking, therefore we want this on a separate thread
             try {
                 String userInput = reader.readLine();
-                broadcastMessage(userInput);
+                broadcastMessage(this.username + ": " + userInput);
             } catch (IOException e) {
                 e.printStackTrace();
             }
