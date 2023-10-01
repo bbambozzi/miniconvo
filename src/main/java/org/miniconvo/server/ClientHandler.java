@@ -56,6 +56,7 @@ public class ClientHandler implements Runnable {
     }
 
     private void closeAll() {
+        broadcastMessage(this.username + " has left the chat.");
         try {
             if (Objects.nonNull(socket)) {
                 this.socket.close();
@@ -85,9 +86,12 @@ public class ClientHandler implements Runnable {
             // blocking, therefore we want this on a separate thread
             try {
                 String userInput = reader.readLine();
-                broadcastMessage(this.username + ": " + userInput);
+                if (userInput != null && !userInput.isEmpty()) {
+                    broadcastMessage(this.username + ": " + userInput);
+                }
             } catch (IOException e) {
                 closeAll();
+                break;
             }
         }
     }

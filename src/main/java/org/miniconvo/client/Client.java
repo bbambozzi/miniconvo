@@ -83,6 +83,7 @@ public class Client {
                 } catch (IOException e) {
                     closeAll();
                     System.out.println("Exception at listener thread.");
+                    break;
                 }
             }
         });
@@ -92,7 +93,9 @@ public class Client {
         Scanner scanner = new Scanner(System.in);
         while (socket != null && socket.isConnected()) {
             String userMessage = scanner.nextLine();
-            sendMessageToServer(userMessage);
+            if (Objects.nonNull(userMessage) && !userMessage.isEmpty()) {
+                sendMessageToServer(userMessage);
+            }
         }
     }
 }
