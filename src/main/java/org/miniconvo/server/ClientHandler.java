@@ -26,6 +26,11 @@ public class ClientHandler {
         }
     }
 
+    private static void writeToClientHandlerWriter(ClientHandler clientHandler, String message) throws IOException {
+        clientHandler.writer.write(message);
+        clientHandler.writer.newLine();
+        clientHandler.writer.flush();
+    }
 
     private String askForUsernameFromConsole() {
         System.out.println("Please enter your username");
@@ -37,15 +42,13 @@ public class ClientHandler {
 
     private void broadcastMessage(String messageToBroadcast) {
         System.out.println("SEVER LOG: " + messageToBroadcast);
-        try {
-            for (ClientHandler clientHandler : allClients) {
-                clientHandler.writer.write(messageToBroadcast);
-                clientHandler.writer.newLine();
-                clientHandler.writer.flush();
+        allClients.stream().parallel().forEach(elem -> {
+            try {
+                writeToClientHandlerWriter(elem, messageToBroadcast);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        });
     }
 
     public String getUsername() {
