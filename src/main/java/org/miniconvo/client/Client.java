@@ -18,7 +18,8 @@ public class Client {
             this.writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             this.socket = socket;
             // this.username = askForUsernameViaCli(); TODO? Ask server?
-        } catch (Exception e) {
+        } catch (IOException e) {
+            closeAll();
             e.printStackTrace();
         }
     }
@@ -61,5 +62,4 @@ public class Client {
         System.out.println("Connected.");
         client.listen();
     }
-
 }
