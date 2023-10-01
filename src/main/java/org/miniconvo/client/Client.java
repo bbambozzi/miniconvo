@@ -41,8 +41,7 @@ public class Client {
     private String askForUsernameViaCli() {
         System.out.println("Please enter your username ");
         Scanner scanner = new Scanner(System.in);
-        String userInput = scanner.nextLine();
-        return userInput;
+        return scanner.nextLine();
     }
 
     private void closeAll() {
