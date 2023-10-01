@@ -84,7 +84,11 @@ public class ClientHandler implements Runnable {
         while (this.socket != null && !this.socket.isClosed() && this.socket.isConnected()) {
             try {
                 String userInput = reader.readLine();
-                if (userInput != null && !userInput.isEmpty()) {
+                if (Objects.isNull(userInput)) {
+                    closeAll();
+                    break;
+                }
+                if (!userInput.isEmpty()) {
                     broadcastMessage(this.username + ": " + userInput);
                 }
             } catch (IOException e) {
@@ -93,8 +97,6 @@ public class ClientHandler implements Runnable {
                 break;
             }
         }
-        System.out.println("SERVER LOG: Thread connection finished");
-        closeAll();
     }
 
 }

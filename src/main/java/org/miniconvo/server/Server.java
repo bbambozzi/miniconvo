@@ -15,6 +15,7 @@ public record Server(ServerSocket serverSocket) {
     }
 
     private void closeAllResources() {
+        System.out.println("SERVER: Closing all server resources..");
         try {
             if (Objects.nonNull(serverSocket)) {
                 serverSocket.close();
