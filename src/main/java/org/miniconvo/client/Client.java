@@ -25,13 +25,12 @@ public class Client {
     }
 
     public static void main(String[] args) throws IOException {
-        System.out.println("Please enter your username: ");
         Scanner scanner = new Scanner(System.in);
+        System.out.println("Please enter your username: ");
         String usernameViaCli = scanner.nextLine();
         Socket clientSocketConnection = new Socket("localhost", 1337);
         Client client = new Client(clientSocketConnection, usernameViaCli);
-        System.out.println("Welcome, " + client.username + "!");
-        client.listenForServerMessages();
+        client.listenForServerMessages(); // non-blocking, new thread spawned
         client.listenForUserInputToSendToServer();
     }
 
@@ -72,6 +71,10 @@ public class Client {
         }
     }
 
+    /**
+     * Spawns a new thread that handles listening for server messages
+     * asynchronously.
+     */
     public void listenForServerMessages() {
         System.out.println("Started listening..");
         Thread.ofVirtual().name(this.username + " listener").start(() -> {
