@@ -18,11 +18,16 @@ public class Client {
             this.writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             this.socket = socket;
             this.username = username;
-            sendMessageToServer(username);
+            sendInitialUsernameToServer(); // maybe remove this logic inside constructor somehow?
         } catch (IOException e) {
             closeAll();
             e.printStackTrace();
         }
+    }
+
+
+    private void sendInitialUsernameToServer() {
+        sendMessageToServer(this.username);
     }
 
 
