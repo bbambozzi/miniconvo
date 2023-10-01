@@ -19,7 +19,7 @@ public record Server(ServerSocket serverSocket) {
             if (Objects.nonNull(serverSocket)) {
                 serverSocket.close();
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -30,7 +30,8 @@ public record Server(ServerSocket serverSocket) {
                 Socket connectedClient = serverSocket.accept();
                 ClientHandler clientHandler = new ClientHandler(connectedClient); // blocking?
                 System.out.println("SERVER LOG: user " + clientHandler.getUsername() + " has joined the server.");
-            } catch (Exception e) {
+            } catch (IOException e) {
+                closeAllResources();
                 e.printStackTrace();
             }
         }

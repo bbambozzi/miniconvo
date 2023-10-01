@@ -35,10 +35,16 @@ public class Client {
 
     private void closeAll() {
         try {
-            if (Objects.nonNull(writer)) { writer.close();}
-            if (Objects.nonNull(reader)) { reader.close();}
-            if (Objects.nonNull(socket)) { socket.close();}
-        } catch (Exception e) {
+            if (Objects.nonNull(writer)) {
+                writer.close();
+            }
+            if (Objects.nonNull(reader)) {
+                reader.close();
+            }
+            if (Objects.nonNull(socket)) {
+                socket.close();
+            }
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -49,7 +55,6 @@ public class Client {
             try {
             System.out.println(reader.readLine());
             } catch (IOException e) {
-                e.printStackTrace();
                 closeAll();
             }
         }
