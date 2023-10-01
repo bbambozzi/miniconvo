@@ -21,7 +21,6 @@ public class Client {
             sendInitialUsernameToServer(); // maybe remove this logic inside constructor somehow?
         } catch (IOException e) {
             closeAll();
-            e.printStackTrace();
         }
     }
 
