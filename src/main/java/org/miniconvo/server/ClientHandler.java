@@ -91,14 +91,12 @@ public class ClientHandler implements Runnable {
             try {
                 String userInput = reader.readLine();
                 if (Objects.isNull(userInput)) {
-                    closeAll();
-                    break;
+                    throw new IOException("Couldn't read userInput in run() thread!");
                 }
                 if (!userInput.isEmpty()) {
                     broadcastMessage(this.username + ": " + userInput);
                 }
             } catch (IOException e) {
-                System.out.println("Exception and stuff");
                 closeAll();
                 break;
             }
