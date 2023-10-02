@@ -2,6 +2,7 @@ package org.miniconvo.client;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -24,10 +25,20 @@ public class Client {
         }
     }
 
+    /**
+     * @param args First argument should always be the client's username.
+     * @throws IOException Whenever it fails to read or write to stdin/stdout, it will fail.
+     */
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Please enter your username: ");
-        String usernameViaCli = scanner.nextLine();
+        System.out.println(Arrays.toString(args));
+        String usernameViaCli;
+        if (args.length > 0) {
+            usernameViaCli = args[0];
+        } else {
+            System.out.println("Please enter your username: ");
+            usernameViaCli = scanner.nextLine();
+        }
         Socket clientSocketConnection = new Socket("localhost", 1337);
         Client client = new Client(clientSocketConnection, usernameViaCli);
         client.listenForServerMessages(); // non-blocking, new thread spawned
