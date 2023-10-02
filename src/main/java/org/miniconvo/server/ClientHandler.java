@@ -62,12 +62,19 @@ public class ClientHandler implements Runnable {
     private void closeAll() {
         removeClientFromHandlers();
         try {
-            this.socket.close();
-            this.writer.close();
-            this.reader.close();
+            if (this.socket != null) {
+                this.socket.close();
+            }
 
-        } catch (Exception e) {
-            e.printStackTrace();
+            if (this.reader != null) {
+                this.reader.close();
+            }
+            if (this.writer != null) {
+                this.writer.close();
+            }
+        } catch (IOException e) {
+            System.out.println("Exception when closing ClientHandler!");
+            System.out.println(e.getMessage());
         }
     }
 
