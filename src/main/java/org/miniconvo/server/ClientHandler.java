@@ -56,11 +56,11 @@ public class ClientHandler implements Runnable {
 
     private void removeClientFromHandlers() {
         allClients.remove(this);
-        broadcastMessage(this.username + " has left the chat.");
     }
 
     private void closeAll() {
         removeClientFromHandlers();
+        broadcastMessage(this.username + " has left the chat.");
         try {
             if (this.socket != null) {
                 this.socket.close();
