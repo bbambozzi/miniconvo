@@ -55,8 +55,8 @@ public class ClientHandler implements Runnable {
     }
 
     private void removeClientFromHandlers() {
-        broadcastMessage(this.username + " has left the chat.");
         allClients.remove(this);
+        broadcastMessage(this.username + " has left the chat.");
     }
 
     private void closeAll() {

@@ -30,7 +30,7 @@ public record Server(ServerSocket serverSocket) {
             try {
                 Socket connectedClient = serverSocket.accept();
                 ClientHandler clientHandler = new ClientHandler(connectedClient);
-                Thread.ofVirtual().name(clientHandler.getUsername()).start(clientHandler);
+                Thread t1 = Thread.ofVirtual().name(clientHandler.getUsername()).start(clientHandler);
             } catch (IOException e) {
                 closeAllResources();
             }
