@@ -102,7 +102,7 @@ public class Client {
 
     public void listenForUserInputToSendToServer() {
         Scanner scanner = new Scanner(System.in);
-        while (socket != null && socket.isConnected()) {
+        while (socket != null && socket.isConnected() && scanner.hasNext()) {
             String userMessage = scanner.nextLine();
             if (Objects.nonNull(userMessage) && !userMessage.isEmpty()) {
                 sendMessageToServer(userMessage);
