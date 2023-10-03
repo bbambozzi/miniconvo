@@ -23,7 +23,11 @@ public class Benchmark {
     }
 
     public static void main(String[] args) {
-        benchmark(50);
+        int amount = 500;
+        if (args.length > 0) {
+            amount = Integer.valueOf(args[0]);
+        }
+        benchmark(amount);
     }
 
     public static <T> T randomElementOfList(List<T> x) {
