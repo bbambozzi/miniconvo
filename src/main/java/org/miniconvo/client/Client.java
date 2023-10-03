@@ -87,7 +87,6 @@ public class Client {
      * asynchronously.
      */
     public Thread listenForServerMessages() {
-        System.out.println("Started listening..");
         return Thread.ofVirtual().name(this.username + " listener").start(() -> {
             while (this.socket.isConnected() && this.socket != null) {
                 try {

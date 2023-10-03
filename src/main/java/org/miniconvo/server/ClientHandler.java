@@ -6,10 +6,11 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ClientHandler implements Runnable {
 
-    private static final Set<ClientHandler> allClients = new HashSet<>();
+    private static final Set<ClientHandler> allClients = ConcurrentHashMap.newKeySet();
     private String username;
     private BufferedWriter writer;
     private BufferedReader reader;
