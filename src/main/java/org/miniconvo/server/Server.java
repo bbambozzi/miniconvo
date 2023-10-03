@@ -20,8 +20,7 @@ public record Server(ServerSocket serverSocket) {
             if (Objects.nonNull(serverSocket)) {
                 serverSocket.close();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ignored) {
         }
     }
 
