@@ -25,7 +25,7 @@ public class Benchmark {
     public static void main(String[] args) {
         int amount = 500;
         if (args.length > 0) {
-            amount = Integer.valueOf(args[0]);
+            amount = Integer.parseInt(args[0]);
         }
         benchmark(amount);
     }
