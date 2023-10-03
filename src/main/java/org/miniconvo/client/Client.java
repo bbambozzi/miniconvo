@@ -45,6 +45,7 @@ public class Client {
         client.listenForUserInputToSendToServer();
     }
 
+
     private void sendInitialUsernameToServer() {
         sendMessageToServer(this.username);
     }
@@ -85,9 +86,9 @@ public class Client {
      * Spawns a new thread that handles listening for server messages
      * asynchronously.
      */
-    public void listenForServerMessages() {
+    public Thread listenForServerMessages() {
         System.out.println("Started listening..");
-        Thread.ofVirtual().name(this.username + " listener").start(() -> {
+        return Thread.ofVirtual().name(this.username + " listener").start(() -> {
             while (this.socket.isConnected() && this.socket != null) {
                 try {
                     System.out.println(reader.readLine());
